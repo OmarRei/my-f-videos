@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .join('');
 
     // Check if the hashed password matches the expected value
-    if (hashedPasswordHex === '2025c9d610263d93cb3aa50c4eec74ab6079957518b63e117f264897b7e818af') {
+    if (hashedPasswordHex === 'fe1128a78348e3ef41d826ba69baacdbc1c89eddfee10cdab8d079aa33947a11') {
       // If the password is correct, toggle the visibility of hidden content
       hiddenContent.style.display = hiddenContent.style.display === 'none' ? 'block' : 'none';
     } else {
