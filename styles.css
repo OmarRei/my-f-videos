@@ -75,6 +75,16 @@ img {
   aspect-ratio: 16/9;
   object-fit: cover;
 }
+#videoCount{
+  position: fixed;
+    /* position: absolute; */
+  right: 60px;
+  bottom: 0px;
+  background-color: #222831;
+  padding: 10px 10px;
+  border-radius: 15px 0px 0px 15px;
+  color: white;
+}
 .aside button:hover {
   background-color: #006469;
 }
