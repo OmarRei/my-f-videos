@@ -1,0 +1,245 @@
+body {
+  background-image: url(blurry-gradient-haikei.svg);
+  background-size: cover;
+  background-attachment: fixed;
+  margin: 0;
+  font-family: system-ui;
+}
+.aside {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100vh;
+  background-color: #222831;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.aside h2 {
+  color: #333;
+}
+
+.aside button {
+  display: block;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #00adb5;
+  color: #eeeeee;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 15px;
+  justify-content: center;
+  align-items: center;
+  max-width: 1350px;
+  margin: auto;
+  padding: 20px;
+  padding-top: 40px;
+  padding-right: 70px;
+}
+.video {
+  text-align: center;
+  background-color: #333;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+h2.video-title {
+  font-size: 20px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #e2e2e2;
+  margin: 10px 0;
+}
+a {
+  display: block;
+  text-align: center;
+  margin: 20px auto;
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.aside button:hover {
+  background-color: #006469;
+}
+
+#updateContainerButton {
+  display: none;
+}
+#up-down {
+  position: fixed;
+  bottom: 5%;
+}
+
+/* checkbox */
+.checkbox-wrapper-24 {
+  position: relative;
+  left: 12%;
+  margin-top: 10px;
+}
+
+.checkbox-wrapper-24 .checkbox {
+  display: table-cell;
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.checkbox-wrapper-24 label {
+  display: inline-block;
+  color: #00adb5;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox-wrapper-24 label span {
+  display: inline-block;
+  position: relative;
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
+  transform-origin: center;
+  border: 2px solid #00adb5;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 10px;
+  transition: background-color 150ms 200ms,
+    transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89);
+}
+
+.checkbox-wrapper-24 label span:before {
+  content: "";
+  width: 0px;
+  height: 2px;
+  border-radius: 2px;
+  background: #00adb5;
+  position: absolute;
+  transform: rotate(45deg);
+  top: 13px;
+  left: 9px;
+  transition: width 50ms ease 50ms;
+  transform-origin: 0% 0%;
+}
+
+.checkbox-wrapper-24 label span:after {
+  content: "";
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: #00adb5;
+  position: absolute;
+  transform: rotate(305deg);
+  top: 16px;
+  left: 10px;
+  transition: width 50ms ease;
+  transform-origin: 0% 0%;
+}
+
+.checkbox-wrapper-24 label:hover span:before {
+  width: 5px;
+  transition: width 100ms ease;
+}
+
+.checkbox-wrapper-24 label:hover span:after {
+  width: 10px;
+  transition: width 150ms ease 100ms;
+}
+
+.checkbox-wrapper-24 input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-wrapper-24 input[type="checkbox"]:checked + label span {
+  background-color: #00adb5;
+  transform: scale(1.25);
+}
+
+.checkbox-wrapper-24 input[type="checkbox"]:checked + label span:after {
+  width: 10px;
+  background: #fff;
+  transition: width 150ms ease 100ms;
+}
+
+.checkbox-wrapper-24 input[type="checkbox"]:checked + label span:before {
+  width: 5px;
+  background: #fff;
+  transition: width 150ms ease 100ms;
+}
+
+.checkbox-wrapper-24 input[type="checkbox"]:checked + label:hover span {
+  background-color: #00adb5;
+  transform: scale(1.25);
+}
+
+.checkbox-wrapper-24 input[type="checkbox"]:checked + label:hover span:after {
+  width: 10px;
+  background: #fff;
+  transition: width 150ms ease 100ms;
+}
+
+.checkbox-wrapper-24 input[type="checkbox"]:checked + label:hover span:before {
+  width: 5px;
+  background: #fff;
+  transition: width 150ms ease 100ms;
+}
+/* checkbox */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid #00adb5;
+  border-right: none;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+.searchTerm:focus {
+  color: #00adb5;
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #00adb5;
+  background: #00adb5;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap {
+  width: 30%;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  position: sticky;
+  transform: translate(-50%, -50%);
+}

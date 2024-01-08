@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <title>Professional Information Form</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url(layered-waves-haikei.svg);
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4facf7;
+            white-space: nowrap;
+        }
+
+        .video {
+            max-width: 800px;
+        }
+
+        /* Form styles */
+        #infoForm {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.15);
+            -webkit-backdrop-filter: blur(9px);
+            backdrop-filter: blur(9px);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #e9e9e9;
+        }
+
+        input[type="text"],
+        input[type="url"] {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.15);
+            -webkit-backdrop-filter: blur(9px);
+            backdrop-filter: blur(9px);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+        }
+
+        #submitButton,
+        #copyAllButton,
+        #clearButton {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #submitButton:hover,
+        #copyAllButton:hover,
+        #clearButton:hover {
+            background-color: #555;
+            box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+            transform: translateY(-2px);
+        }
+
+        #submitButton:active,
+        #copyAllButton:active,
+        #clearButton:active {
+            box-shadow: none;
+            transform: translateY(0);
+        }
+
+        /* Displayed information styles */
+        hr {
+            margin-top: 20px;
+        }
+
+        #displayInfo {
+            max-width: fit-content;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.15);
+            -webkit-backdrop-filter: blur(9px);
+            backdrop-filter: blur(9px);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+        }
+
+        #displayInfo code {
+            display: block;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.15);
+            -webkit-backdrop-filter: blur(9px);
+            backdrop-filter: blur(9px);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            /* Add border-radius to soften edges */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button#copyAllButton {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+        }
+
+        #back-to-top-button,
+        #back-to-down-button {
+            position: fixed;
+            top: 550px;
+            right: 20px;
+            background: #333;
+            border: none;
+            color: #ccc;
+            font-size: 24px;
+            cursor: pointer;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+
+        }
+
+        #back-to-top-button {
+            border-radius: 0 15px 15px 0;
+        }
+
+        #back-to-down-button {
+            right: 55px;
+            border-radius: 15px 0px 0px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Enter Information</h1>
+    <div id="infoForm">
+
+        <input type="button" value="Clear" id="clearButton">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br><br>
+
+        <label for="imageLink">Image Link:</label>
+        <input type="text" id="imageLink" required><br><br>
+
+        <label for="url">URL:</label>
+        <input type="url" id="url" required><br><br>
+
+        <input type="button" value="Submit" id="submitButton">
+    </div>
+    <button id="back-to-top-button">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <button id="back-to-down-button">
+        <i class="fas fa-arrow-down"></i>
+    </button>
+
+    <div id="displayInfo">
+        <!-- Information will be displayed here -->
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let allContent = '';
+
+            document.getElementById("submitButton").addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // Get input values
+                const name = document.getElementById("name").value;
+                const imageLink = document.getElementById("imageLink").value;
+                const url = document.getElementById("url").value;
+
+                // Check if any input field is empty
+                if (!name || !imageLink || !url) {
+                    alert("Please fill out all fields before submitting.");
+                    return;
+                }
+
+                // Create the HTML structure for displaying the information
+                const codeContent = `<div class="video">         
+  <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
+  <h2 class="video-title">${name}</h2>
+</div>
+`;
+
+                // Create a new div for the current submission
+                const infoDiv = document.createElement("div");
+                infoDiv.innerHTML = codeContent;
+
+                // Append the new content to the existing content inside displayInfo
+                document.getElementById("displayInfo").appendChild(infoDiv);
+
+                // Add the modified content to the allContent variable
+                allContent += codeContent;
+            });
+
+            // Create the copy button for all submissions
+            const copyButton = document.createElement("button");
+            copyButton.textContent = "Copy All";
+            copyButton.id = "copyAllButton";
+            copyButton.addEventListener("click", function () {
+                const textarea = document.createElement("textarea");
+                textarea.value = allContent;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+            });
+
+            // Get the clear button element by its id
+            const clearButton = document.getElementById("clearButton");
+
+            // Add an event listener to the clear button
+            clearButton.addEventListener("click", function () {
+                // Reset the values of the input fields to empty strings
+                document.getElementById("name").value = "";
+                document.getElementById("imageLink").value = "";
+                document.getElementById("url").value = "";
+            });
+
+            // Append the "Copy All" button to the page
+            document.body.appendChild(copyButton);
+
+            // JavaScript to scroll back to the top when the button is clicked
+            document.getElementById("back-to-top-button").addEventListener("click", function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+
+            document.getElementById("back-to-down-button").addEventListener("click", function () {
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight,
+                    behavior: "smooth"
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
