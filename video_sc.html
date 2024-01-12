@@ -652,6 +652,46 @@
       updateButton.addEventListener('click', function() {
         updateContainerClass();
       });
+        // Function to fetch content from an external file
+    function fetchContent() {
+      fetch('container.txt')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then(data => {
+          // Parse the data into HTML elements
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(data, 'text/html');
+
+          // Select all the video elements
+          const videoElements = doc.querySelectorAll('.video');
+
+          // Calculate the start and end indices for the current page
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const endIndex = currentPage * itemsPerPage;
+
+          // Extract the elements for the current page
+          const currentElements = Array.from(videoElements).slice(startIndex, endIndex);
+
+          // Append the elements for the current page to the container
+          currentElements.forEach(element => {
+            container.appendChild(element.cloneNode(true));
+          });
+
+          // Check if there are more pages
+          if (endIndex < videoElements.length) {
+            loadMoreButton.style.display = 'block';
+          } else {
+            loadMoreButton.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching content:', error);
+        });
+    }
     });
   </script>
 </html>
