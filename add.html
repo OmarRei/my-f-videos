@@ -188,7 +188,7 @@
     </button>
 
     <div id="displayInfo">
-        <!-- Information will be displayed here -->
+        
     </div>
 
     <script>
@@ -196,10 +196,12 @@
         let allContent = '';
 
         function createContent(name, imageLink, url) {
-            return `<div class="video">
-                        <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
-                        <h2 class="video-title">${name}</h2>
-                    </div>`;
+            return 
+`<div class="video">
+  <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
+  <h2 class="video-title">${name}</h2>
+</div>
+  `;
         }
 
         document.getElementById("submitButton").addEventListener("click", function (event) {
