@@ -150,7 +150,6 @@
             height: 35px;
             width: 35px;
             border-radius: 50%;
-
         }
 
         #back-to-top-button {
@@ -188,112 +187,108 @@
     </button>
 
     <div id="displayInfo">
-        
+        <!-- Information will be displayed here -->
     </div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let allContent = '';
+        document.addEventListener("DOMContentLoaded", function () {
+            let allContent = '';
 
-        function createContent(name, imageLink, url) {
-            return 
-`<div class="video">
-  <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
-  <h2 class="video-title">${name}</h2>
-  <button class="editButton">Edit</button>
-  <button class="deleteButton">Delete</button>
-</div>
-`;
-        }
-
-        document.getElementById("submitButton").addEventListener("click", function (event) {
-            event.preventDefault();
-
-            const name = document.getElementById("name").value;
-            const imageLink = document.getElementById("imageLink").value;
-            const url = document.getElementById("url").value;
-
-            if (!name || !imageLink || !url) {
-                alert("Please fill out all fields before submitting.");
-                return;
+            function createContent(name, imageLink, url) {
+                return `<div class="video">
+                            <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
+                            <h2 class="video-title">${name}</h2>
+                            <button class="editButton">Edit</button>
+                            <button class="deleteButton">Delete</button>
+                        </div>`;
             }
 
-            const codeContent = createContent(name, imageLink, url);
-            const infoDiv = document.createElement("div");
-            infoDiv.innerHTML = codeContent;
+            document.getElementById("submitButton").addEventListener("click", function (event) {
+                event.preventDefault();
 
-            const editButton = infoDiv.querySelector(".editButton");
-            editButton.addEventListener("click", function () {
-                const newName = prompt("Enter new name:", name);
-                const newImageLink = prompt("Enter new image link:", imageLink);
-                const newUrl = prompt("Enter new URL:", url);
+                const name = document.getElementById("name").value;
+                const imageLink = document.getElementById("imageLink").value;
+                const url = document.getElementById("url").value;
 
-                infoDiv.innerHTML = createContent(newName, newImageLink, newUrl);
-            });
+                if (!name || !imageLink || !url) {
+                    alert("Please fill out all fields before submitting.");
+                    return;
+                }
 
-            const deleteButton = infoDiv.querySelector(".deleteButton");
-            deleteButton.addEventListener("click", function () {
-                infoDiv.remove();
+                const codeContent = createContent(name, imageLink, url);
+                const infoDiv = document.createElement("div");
+                infoDiv.innerHTML = codeContent;
+
+                const editButton = infoDiv.querySelector(".editButton");
+                editButton.addEventListener("click", function () {
+                    const newName = prompt("Enter new name:", name);
+                    const newImageLink = prompt("Enter new image link:", imageLink);
+                    const newUrl = prompt("Enter new URL:", url);
+
+                    infoDiv.innerHTML = createContent(newName, newImageLink, newUrl);
+                });
+
+                const deleteButton = infoDiv.querySelector(".deleteButton");
+                deleteButton.addEventListener("click", function () {
+                    infoDiv.remove();
+                    updateAllContent();
+                });
+
+                document.getElementById("displayInfo").appendChild(infoDiv);
                 updateAllContent();
             });
 
-            document.getElementById("displayInfo").appendChild(infoDiv);
-            updateAllContent();
-        });
+            const copyButton = document.createElement("button");
+            copyButton.textContent = "Copy All";
+            copyButton.id = "copyAllButton";
+            copyButton.addEventListener("click", function () {
+                const clonedContent = document.getElementById("displayInfo").cloneNode(true);
 
-        const copyButton = document.createElement("button");
-        copyButton.textContent = "Copy All";
-        copyButton.id = "copyAllButton";
-        copyButton.addEventListener("click", function () {
-            const clonedContent = document.getElementById("displayInfo").cloneNode(true);
-            
-            // Remove edit and delete buttons from the cloned content
-            const editButtons = clonedContent.querySelectorAll(".editButton");
-            editButtons.forEach(button => button.remove());
-            
-            const deleteButtons = clonedContent.querySelectorAll(".deleteButton");
-            deleteButtons.forEach(button => button.remove());
+                // Remove edit and delete buttons from the cloned content
+                const editButtons = clonedContent.querySelectorAll(".editButton");
+                editButtons.forEach(button => button.remove());
 
-            const copiedContent = clonedContent.innerHTML;
+                const deleteButtons = clonedContent.querySelectorAll(".deleteButton");
+                deleteButtons.forEach(button => button.remove());
 
-            const textarea = document.createElement("textarea");
-            textarea.value = copiedContent;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-        });
+                const copiedContent = clonedContent.innerHTML;
 
-        const clearButton = document.getElementById("clearButton");
-        clearButton.addEventListener("click", function () {
-            document.getElementById("name").value = "";
-            document.getElementById("imageLink").value = "";
-            document.getElementById("url").value = "";
-        });
-
-        document.body.appendChild(copyButton);
-
-        document.getElementById("back-to-top-button").addEventListener("click", function () {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
+                const textarea = document.createElement("textarea");
+                textarea.value = copiedContent;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
             });
-        });
 
-        document.getElementById("back-to-down-button").addEventListener("click", function () {
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: "smooth"
+            const clearButton = document.getElementById("clearButton");
+            clearButton.addEventListener("click", function () {
+                document.getElementById("name").value = "";
+                document.getElementById("imageLink").value = "";
+                document.getElementById("url").value = "";
             });
+
+            document.body.appendChild(copyButton);
+
+            document.getElementById("back-to-top-button").addEventListener("click", function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+
+            document.getElementById("back-to-down-button").addEventListener("click", function () {
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight,
+                    behavior: "smooth"
+                });
+            });
+
+            function updateAllContent() {
+                allContent = document.getElementById("displayInfo").innerHTML;
+            }
         });
-
-        function updateAllContent() {
-            allContent = document.getElementById("displayInfo").innerHTML;
-        }
-    });
-</script>
-
-
+    </script>
 </body>
 
 </html>
