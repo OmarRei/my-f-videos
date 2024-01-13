@@ -192,84 +192,91 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let allContent = '';
+    document.addEventListener("DOMContentLoaded", function () {
+        let allContent = '';
 
-            document.getElementById("submitButton").addEventListener("click", function (event) {
-                event.preventDefault();
+        function createContent(name, imageLink, url) {
+            return `<div class="video">
+                        <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
+                        <h2 class="video-title">${name}</h2>
+                    </div>`;
+        }
 
-                // Get input values
-                const name = document.getElementById("name").value;
-                const imageLink = document.getElementById("imageLink").value;
-                const url = document.getElementById("url").value;
+        document.getElementById("submitButton").addEventListener("click", function (event) {
+            event.preventDefault();
 
-                // Check if any input field is empty
-                if (!name || !imageLink || !url) {
-                    alert("Please fill out all fields before submitting.");
-                    return;
-                }
+            const name = document.getElementById("name").value;
+            const imageLink = document.getElementById("imageLink").value;
+            const url = document.getElementById("url").value;
 
-                // Create the HTML structure for displaying the information
-                const codeContent = `<div class="video">         
-  <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
-  <h2 class="video-title">${name}</h2>
-</div>
-`;
+            if (!name || !imageLink || !url) {
+                alert("Please fill out all fields before submitting.");
+                return;
+            }
 
-                // Create a new div for the current submission
-                const infoDiv = document.createElement("div");
-                infoDiv.innerHTML = codeContent;
+            const codeContent = createContent(name, imageLink, url);
+            const infoDiv = document.createElement("div");
+            infoDiv.innerHTML = codeContent;
 
-                // Append the new content to the existing content inside displayInfo
-                document.getElementById("displayInfo").appendChild(infoDiv);
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", function () {
+                const newName = prompt("Enter new name:", name);
+                const newImageLink = prompt("Enter new image link:", imageLink);
+                const newUrl = prompt("Enter new URL:", url);
 
-                // Add the modified content to the allContent variable
-                allContent += codeContent;
+                // Update the content with the edited values
+                infoDiv.innerHTML = createContent(newName, newImageLink, newUrl);
             });
 
-            // Create the copy button for all submissions
-            const copyButton = document.createElement("button");
-            copyButton.textContent = "Copy All";
-            copyButton.id = "copyAllButton";
-            copyButton.addEventListener("click", function () {
-                const textarea = document.createElement("textarea");
-                textarea.value = allContent;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textarea);
-            });
+            infoDiv.appendChild(editButton);
+            document.getElementById("displayInfo").appendChild(infoDiv);
+            allContent += codeContent;
+        });
 
-            // Get the clear button element by its id
-            const clearButton = document.getElementById("clearButton");
+        const copyButton = document.createElement("button");
+        copyButton.textContent = "Copy All";
+        copyButton.id = "copyAllButton";
+        copyButton.addEventListener("click", function () {
+            const displayInfoClone = document.getElementById("displayInfo").cloneNode(true);
 
-            // Add an event listener to the clear button
-            clearButton.addEventListener("click", function () {
-                // Reset the values of the input fields to empty strings
-                document.getElementById("name").value = "";
-                document.getElementById("imageLink").value = "";
-                document.getElementById("url").value = "";
-            });
+            // Remove edit buttons from the cloned content
+            const editButtons = displayInfoClone.querySelectorAll(".video button");
+            editButtons.forEach(button => button.remove());
 
-            // Append the "Copy All" button to the page
-            document.body.appendChild(copyButton);
+            const textarea = document.createElement("textarea");
+            textarea.value = displayInfoClone.innerHTML;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+        });
 
-            // JavaScript to scroll back to the top when the button is clicked
-            document.getElementById("back-to-top-button").addEventListener("click", function () {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
+        const clearButton = document.getElementById("clearButton");
+        clearButton.addEventListener("click", function () {
+            document.getElementById("name").value = "";
+            document.getElementById("imageLink").value = "";
+            document.getElementById("url").value = "";
+        });
 
-            document.getElementById("back-to-down-button").addEventListener("click", function () {
-                window.scrollTo({
-                    top: document.documentElement.scrollHeight,
-                    behavior: "smooth"
-                });
+        document.body.appendChild(copyButton);
+
+        document.getElementById("back-to-top-button").addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
             });
         });
-    </script>
+
+        document.getElementById("back-to-down-button").addEventListener("click", function () {
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: "smooth"
+            });
+        });
+    });
+</script>
+
 </body>
 
 </html>
