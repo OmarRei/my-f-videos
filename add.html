@@ -200,8 +200,10 @@
 `<div class="video">
   <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
   <h2 class="video-title">${name}</h2>
+  <button class="editButton">Edit</button>
+  <button class="deleteButton">Delete</button>
 </div>
-  `;
+`;
         }
 
         document.getElementById("submitButton").addEventListener("click", function (event) {
@@ -220,34 +222,42 @@
             const infoDiv = document.createElement("div");
             infoDiv.innerHTML = codeContent;
 
-            const editButton = document.createElement("button");
-            editButton.textContent = "Edit";
+            const editButton = infoDiv.querySelector(".editButton");
             editButton.addEventListener("click", function () {
                 const newName = prompt("Enter new name:", name);
                 const newImageLink = prompt("Enter new image link:", imageLink);
                 const newUrl = prompt("Enter new URL:", url);
 
-                // Update the content with the edited values
                 infoDiv.innerHTML = createContent(newName, newImageLink, newUrl);
             });
 
-            infoDiv.appendChild(editButton);
+            const deleteButton = infoDiv.querySelector(".deleteButton");
+            deleteButton.addEventListener("click", function () {
+                infoDiv.remove();
+                updateAllContent();
+            });
+
             document.getElementById("displayInfo").appendChild(infoDiv);
-            allContent += codeContent;
+            updateAllContent();
         });
 
         const copyButton = document.createElement("button");
         copyButton.textContent = "Copy All";
         copyButton.id = "copyAllButton";
         copyButton.addEventListener("click", function () {
-            const displayInfoClone = document.getElementById("displayInfo").cloneNode(true);
-
-            // Remove edit buttons from the cloned content
-            const editButtons = displayInfoClone.querySelectorAll(".video button");
+            const clonedContent = document.getElementById("displayInfo").cloneNode(true);
+            
+            // Remove edit and delete buttons from the cloned content
+            const editButtons = clonedContent.querySelectorAll(".editButton");
             editButtons.forEach(button => button.remove());
+            
+            const deleteButtons = clonedContent.querySelectorAll(".deleteButton");
+            deleteButtons.forEach(button => button.remove());
+
+            const copiedContent = clonedContent.innerHTML;
 
             const textarea = document.createElement("textarea");
-            textarea.value = displayInfoClone.innerHTML;
+            textarea.value = copiedContent;
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand("copy");
@@ -276,8 +286,13 @@
                 behavior: "smooth"
             });
         });
+
+        function updateAllContent() {
+            allContent = document.getElementById("displayInfo").innerHTML;
+        }
     });
 </script>
+
 
 </body>
 
