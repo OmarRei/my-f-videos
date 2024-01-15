@@ -150,6 +150,7 @@
             height: 35px;
             width: 35px;
             border-radius: 50%;
+
         }
 
         #back-to-top-button {
@@ -194,82 +195,66 @@
         document.addEventListener("DOMContentLoaded", function () {
             let allContent = '';
 
-            function createContent(name, imageLink, url) {
-                return `<div class="video">
-                            <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
-                            <h2 class="video-title">${name}</h2>
-                            <button class="editButton">Edit</button>
-                            <button class="deleteButton">Delete</button>
-                        </div>`;
-            }
-
             document.getElementById("submitButton").addEventListener("click", function (event) {
                 event.preventDefault();
 
+                // Get input values
                 const name = document.getElementById("name").value;
                 const imageLink = document.getElementById("imageLink").value;
                 const url = document.getElementById("url").value;
 
+                // Check if any input field is empty
                 if (!name || !imageLink || !url) {
                     alert("Please fill out all fields before submitting.");
                     return;
                 }
 
-                const codeContent = createContent(name, imageLink, url);
+                // Create the HTML structure for displaying the information
+                const codeContent = `<div class="video">         
+  <a href="${url}" target="_blank"><img loading="lazy" src="${imageLink}"></a>
+  <h2 class="video-title">${name}</h2>
+</div>
+`;
+
+                // Create a new div for the current submission
                 const infoDiv = document.createElement("div");
                 infoDiv.innerHTML = codeContent;
 
-                const editButton = infoDiv.querySelector(".editButton");
-                editButton.addEventListener("click", function () {
-                    const newName = prompt("Enter new name:", name);
-                    const newImageLink = prompt("Enter new image link:", imageLink);
-                    const newUrl = prompt("Enter new URL:", url);
-
-                    infoDiv.innerHTML = createContent(newName, newImageLink, newUrl);
-                });
-
-                const deleteButton = infoDiv.querySelector(".deleteButton");
-                deleteButton.addEventListener("click", function () {
-                    infoDiv.remove();
-                    updateAllContent();
-                });
-
+                // Append the new content to the existing content inside displayInfo
                 document.getElementById("displayInfo").appendChild(infoDiv);
-                updateAllContent();
+
+                // Add the modified content to the allContent variable
+                allContent += codeContent;
             });
 
+            // Create the copy button for all submissions
             const copyButton = document.createElement("button");
             copyButton.textContent = "Copy All";
             copyButton.id = "copyAllButton";
             copyButton.addEventListener("click", function () {
-                const clonedContent = document.getElementById("displayInfo").cloneNode(true);
-
-                // Remove edit and delete buttons from the cloned content
-                const editButtons = clonedContent.querySelectorAll(".editButton");
-                editButtons.forEach(button => button.remove());
-
-                const deleteButtons = clonedContent.querySelectorAll(".deleteButton");
-                deleteButtons.forEach(button => button.remove());
-
-                const copiedContent = clonedContent.innerHTML;
-
                 const textarea = document.createElement("textarea");
-                textarea.value = copiedContent;
+                textarea.value = allContent;
                 document.body.appendChild(textarea);
                 textarea.select();
                 document.execCommand("copy");
                 document.body.removeChild(textarea);
             });
 
+            // Get the clear button element by its id
             const clearButton = document.getElementById("clearButton");
+
+            // Add an event listener to the clear button
             clearButton.addEventListener("click", function () {
+                // Reset the values of the input fields to empty strings
                 document.getElementById("name").value = "";
                 document.getElementById("imageLink").value = "";
                 document.getElementById("url").value = "";
             });
 
+            // Append the "Copy All" button to the page
             document.body.appendChild(copyButton);
 
+            // JavaScript to scroll back to the top when the button is clicked
             document.getElementById("back-to-top-button").addEventListener("click", function () {
                 window.scrollTo({
                     top: 0,
@@ -283,10 +268,6 @@
                     behavior: "smooth"
                 });
             });
-
-            function updateAllContent() {
-                allContent = document.getElementById("displayInfo").innerHTML;
-            }
         });
     </script>
 </body>
