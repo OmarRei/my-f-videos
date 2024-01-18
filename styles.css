@@ -75,6 +75,10 @@ img {
   aspect-ratio: 16/9;
   object-fit: cover;
 }
+img:hover{
+  transition: all 0.5s cubic-bezier(0.47, 0.05, 0.03, 0.98);
+  border-radius: 25px;
+}
 #videoCount{
   position: fixed;
     /* position: absolute; */
