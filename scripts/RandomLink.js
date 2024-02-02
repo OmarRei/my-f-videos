@@ -14,10 +14,13 @@ document.getElementById('randomHrefButton').addEventListener('click', function()
         [links[i], links[j]] = [links[j], links[i]];
       }
 
-      // Open a random link
-      if (links.length > 0) {
-        var randomIndex = Math.floor(Math.random() * links.length);
-        window.open(links[randomIndex], '_blank');
+      // Open two random links
+      if (links.length > 1) {
+        window.open(links[0], '_blank');
+        window.open(links[1], '_blank');
+      } else if (links.length === 1) {
+        window.open(links[0], '_blank');
+        alert('Only one link found in container.txt. Opening one link.');
       } else {
         alert('No links found in container.txt');
       }
