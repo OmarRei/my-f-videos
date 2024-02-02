@@ -8,6 +8,12 @@ document.getElementById('randomHrefButton').addEventListener('click', function()
         return match.substring(6, match.length - 1);
       });
 
+      // Shuffle the links array
+      for (let i = links.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [links[i], links[j]] = [links[j], links[i]];
+      }
+
       // Open a random link
       if (links.length > 0) {
         var randomIndex = Math.floor(Math.random() * links.length);
