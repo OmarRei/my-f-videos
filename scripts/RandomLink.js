@@ -8,22 +8,21 @@ document.getElementById('randomHrefButton').addEventListener('click', function()
         return match.substring(6, match.length - 1);
       });
 
-      // Shuffle the links array
-      for (let i = links.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [links[i], links[j]] = [links[j], links[i]];
-      }
-
-      // Open two random links
-      if (links.length > 1) {
-        window.open(links[0], '_blank');
-        window.open(links[1], '_blank');
+      // Open a random link in a new tab
+      if (links.length >= 2) {
+        var randomIndex1 = Math.floor(Math.random() * links.length);
+        var randomIndex2 = Math.floor(Math.random() * (links.length - 1));
+        randomIndex2 = (randomIndex2 >= randomIndex1) ? randomIndex2 + 1 : randomIndex2;
+      
+        window.open(links[randomIndex1], '_blank');
+        window.open(links[randomIndex2], '_blank');
       } else if (links.length === 1) {
+        // Open the single link in a new tab
         window.open(links[0], '_blank');
-        alert('Only one link found in container.txt. Opening one link.');
       } else {
-        alert('No links found in container.txt');
+        alert('Not enough links found in container.txt to open two tabs.');
       }
+      
     })
     .catch(error => {
       console.error('Error fetching container.txt:', error);
