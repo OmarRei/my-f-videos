@@ -1,6 +1,6 @@
 document.getElementById('randomHrefButton').addEventListener('click', function() {
   // Fetch content from container.txt
-  fetch('../containersc.txt')
+  fetch('./containersc.txt')
     .then(response => response.text())
     .then(data => {
       // Extract href links from the content
