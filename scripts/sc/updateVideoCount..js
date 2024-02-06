@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Fetch the content of the external file (container.txt)
-    fetch('../container.txt')
+    fetch('./container.txt')
       .then(response => response.text())
       .then(data => {
         // Create a temporary HTML element to parse the content
