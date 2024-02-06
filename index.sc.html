@@ -25,15 +25,19 @@
                 <i class="fas fa-plus"></i>
             </button>
         </a>
-        <button id="showHiddenContentButton">
-            <i class="fas fa-user-ninja"></i>
+
+        
+        <div class="checkbox-wrapper-24">
+            <input type="checkbox" id="check-24" name="check" value="" />
+            <label for="check-24">
+              <span><!-- This span is needed to create the "checkbox" element --></span>
+            </label>
+        </div>
+        
+        <button id="updateContainerButton" style="display: none;">
+            <i class="fa-solid fa-arrows-rotate update-icon" id="updateIcon"></i>
         </button>
-        <div  id="hiddenContent" style="display: none;">
-            <a href="index.sc.html" target="_blank" id="hiddenButton" >
-                <button>
-                    <i class="fas fa-bomb"></i>
-                </button>
-            </a>
+        <div  id="hiddenContent">
             <a href="https://www.tranny.one/" target="_blank">
                 <button>
                     <?xml version="1.0" encoding="utf-8"?>
@@ -62,16 +66,6 @@
             </a>
             
         </div>
-        <div class="checkbox-wrapper-24">
-            <input type="checkbox" id="check-24" name="check" value="" />
-            <label for="check-24">
-              <span><!-- This span is needed to create the "checkbox" element --></span>
-            </label>
-        </div>
-        
-        <button id="updateContainerButton" style="display: none;">
-            <i class="fa-solid fa-arrows-rotate update-icon" id="updateIcon"></i>
-        </button>
         <button id="randomHrefButton"><i class="fa-solid fa-shuffle"></i></button>
         <a href="https://ww1.pornhoarder.tv/hp6/" target="_blank">
             <button>
@@ -95,12 +89,7 @@
                 </svg>
 
             </button>
-        </a>
-        <a href="https://freshporno.net/" target="_blank">
-            <button>
-                <i class="fa-solid fa-lemon" style="color: #FADB20;"></i>
-            </button>
-        </a>  
+        </a> 
         <div id="up-down">
             <button id="back-to-top-button">
                 <i class="fas fa-arrow-up"></i>
@@ -125,15 +114,14 @@
 <!--<script src="script.js"></script> 
 <script src="countVideos.js" defer></script>-->
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
-<script src="scripts/loadInitialContent.js"></script>
-<script src="scripts/toggleHiddenContent.js"></script>
+<script src="scripts/sc/loadInitialContent.sc.js"></script>
 <script src="scripts/randomizeElements.js"></script>
-<script src="scripts/lodmore.js"></script>
-<script src="scripts/updateVideoCount.js"></script>
+<script src="scripts/sc/lodmore.sc.js"></script>
+<script src="scripts/sc/updateVideoCount.sc.js"></script>
 <script src="scripts/scroll.js"></script>
-<script src="scripts/bfdMode.js"></script>
+<script src="scripts/sc/bfdMode.js"></script>
 <script src="scripts/search.js"></script>
-<script src="scripts/RandomLink.js"></script>
+<script src="scripts/sc/RandomLink.sc.js"></script>
 
 <!-- Add the CryptoJS library for SHA-256 -->
 
