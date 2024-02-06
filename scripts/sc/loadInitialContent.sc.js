@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const itemsPerPage = 32;
   
     function fetchContent() {
-      fetch('../containersc.txt')
+      fetch('./containersc.txt')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
