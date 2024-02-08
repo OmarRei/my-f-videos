@@ -64,7 +64,8 @@
 
         #submitButton,
         #copyAllButton,
-        #clearButton {
+        #clearButton,
+        #git {
             background-color: #333;
             color: #fff;
             padding: 10px 20px;
@@ -78,10 +79,15 @@
         #clearButton{
             margin-bottom: 10px;
         }
+        #git{
+            position: absolute;
+            right: 4%;
+        }
 
         #submitButton:hover,
         #copyAllButton:hover,
-        #clearButton:hover {
+        #clearButton:hover,
+        #git:hover {
             background-color: #555;
             box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
             transform: translateY(-2px);
@@ -89,7 +95,8 @@
 
         #submitButton:active,
         #copyAllButton:active,
-        #clearButton:active {
+        #clearButton:active,
+        #git:active {
             box-shadow: none;
             transform: translateY(0);
         }
@@ -173,8 +180,10 @@
 <body>
     <h1>Enter Information</h1>
     <div id="infoForm">
-
         <input type="button" value="Clear" id="clearButton">
+        <a href="https://vscode.dev/github/OmarRei/my-f-videos" target="_blank">
+            <button id="git"><i class="fa-brands fa-github fa-lg"></i></i></button>
+        </a>
         <label for="name">Name:</label>
         <input type="text" id="name" required><br><br>
 
