@@ -83,11 +83,18 @@
             position: absolute;
             right: 4%;
         }
+        #git:hover{
+            transition: all 0.5s cubic-bezier(0.47, 0.05, 0.03, 0.98);
+            color: #0D74E7;
+            icon-size: 40px;
+            background-color: #292929;
+        }
 
         #submitButton:hover,
         #copyAllButton:hover,
         #clearButton:hover,
         #git:hover {
+            transition: all 0.5s cubic-bezier(0.47, 0.05, 0.03, 0.98);
             background-color: #555;
             box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
             transform: translateY(-2px);
@@ -97,6 +104,7 @@
         #copyAllButton:active,
         #clearButton:active,
         #git:active {
+            transition: all 0.5s cubic-bezier(0.47, 0.05, 0.03, 0.98);
             box-shadow: none;
             transform: translateY(0);
         }
@@ -182,7 +190,7 @@
     <div id="infoForm">
         <input type="button" value="Clear" id="clearButton">
         <a href="https://vscode.dev/github/OmarRei/my-f-videos" target="_blank">
-            <button id="git"><i class="fa-brands fa-github fa-lg"></i></i></button>
+            <button id="git"><i class="fa-brands fa-github fa-lg" id="git-icon"></i></i></button>
         </a>
         <label for="name">Name:</label>
         <input type="text" id="name" required><br><br>
