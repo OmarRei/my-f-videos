@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Video Player</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    button::before {
+      content: '';
+      display: block;
+    }
+
+    #playPauseBtn::before {
+      content: '\25B6'; /* Play icon */
+    }
+
+    #playPauseBtn.pause::before {
+      content: '\275A\275A'; /* Pause icon */
+    }
+
+    #muteBtn::before {
+      content: '\1F508'; /* Speaker icon */
+    }
+
+    #muteBtn.muted::before {
+      content: '\1F507'; /* Muted speaker icon */
+    }
+
+    #fullscreenBtn::before {
+      content: '\26F6'; /* Fullscreen icon */
+    }
+
+    .time {
+      color: white;
+      margin: 0 5px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    input[type="range"]:focus {
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* Customize the track part */
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4px;
+      cursor: pointer;
+      background: #ddd; /* Default color */
+    }
+
+    /* Custom witness part for WebKit browsers */
+    input[type="range"]::-webkit-slider-runnable-track {
+      background: linear-gradient(to right, #ff0000 0%, #ff0000 var(--seek-slider-fill), #ddd var(--seek-slider-fill), #ddd 100%); /* Gradient color */
+    }
+
+    /* Custom witness part for Mozilla Firefox */
+    input[type="range"]::-moz-range-progress {
+      background-color: #ff0000; /* Red color */
+    }
+  </style>
+</head>
+<body>
+  <div class="video-container">
+    <video id="myVideo" >
+      <source src="https://cdn.pvvstream.pro/videos/-122888561/456240489/vid_480p.mp4?rs=480000&rb=3728270&secure=WyVX_eU-c2z1Qqbtp2c9oA%3D%3D%2C1707434951&dl=1" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="controls">
+      <button id="playPauseBtn" class="play"></button>
+      <input id="seekSlider" type="range" min="0" max="100" step="1" value="0">
+      <span id="currentTime" class="time">00:00</span> /
+      <span id="duration" class="time">00:00</span>
+      <button id="muteBtn"></button>
+      <input id="volumeSlider" type="range" min="0" max="100" step="1" value="100">
+      <button id="fullscreenBtn"></button>
+    </div>
+  </div>
+  <script>
+    const video = document.getElementById('myVideo');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const seekSlider = document.getElementById('seekSlider');
+    const currentTime = document.getElementById('currentTime');
+    const duration = document.getElementById('duration');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    muteBtn.addEventListener('click', toggleMute);
+    volumeSlider.addEventListener('input', setVolume);
+    seekSlider.addEventListener('input', seek);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    video.addEventListener('timeupdate', updateProgress);
+    video.addEventListener('loadedmetadata', updateDuration);
+
+    function togglePlayPause() {
+      if (video.paused || video.ended) {
+        video.play();
+        playPauseBtn.classList.remove('play');
+        playPauseBtn.classList.add('pause');
+      } else {
+        video.pause();
+        playPauseBtn.classList.remove('pause');
+        playPauseBtn.classList.add('play');
+      }
+    }
+
+    function toggleMute() {
+      if (video.muted) {
+        video.muted = false;
+        muteBtn.classList.remove('muted');
+      } else {
+        video.muted = true;
+        muteBtn.classList.add('muted');
+      }
+    }
+
+    function setVolume() {
+      video.volume = volumeSlider.value / 100;
+    }
+
+    function seek() {
+      const seekTo = video.duration * (seekSlider.value / 100);
+      video.currentTime = seekTo;
+    }
+
+    function toggleFullscreen() {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    }
+
+    function updateProgress() {
+      const value = (video.currentTime / video.duration) * 100;
+      seekSlider.value = value;
+      currentTime.textContent = formatTime(video.currentTime);
+    }
+
+    function updateDuration() {
+      duration.textContent = formatTime(video.duration);
+    }
+
+    function formatTime(time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+  </script>
+</body>
+</html>
