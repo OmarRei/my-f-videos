@@ -1,59 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Page</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <title>Search</title>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
+    body {
+    background-image: url(blurry-gradient-haikei.svg);
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: system-ui;
+    }
+
+    .search {
+    width: 100%;
+    position: relative;
+    display: flex;
+    }
+
+    .searchTerm {
+    width: 100%;
+    border: 3px solid #00adb5;
+    border-right: none;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    }
+
+
+    .searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+    }
+
+    .wrap {
+    width: 30%;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    position: sticky;
+    transform: translate(-50%, -50%);
+    }
+    .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 8px;
+    justify-content: center;
+    align-items: center;
+    max-width: 1300px;
+    margin: auto;
+    padding: 20px;
+    padding-top: 40px;
+    padding-right: 20px;
+    }
+
+    .video {
+    text-align: center;
+    background-color: #333;
+    border-radius: 5px;
+    padding: 5px 10px;
+    }
+
+    h2.video-title {
+    font-size: 20px;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #e2e2e2;
+    margin: 10px 0;
+    }
+
+    a {
+    display: block;
+    text-align: center;
+    margin: 10px auto;
+    text-decoration: none;
+    }
+
+    img {
+    max-width: 100%;
+    height: auto;
+    transition: all 0.5s cubic-bezier(0.47, 0.05, 0.03, 0.98);
+    border-radius: 10px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+                rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    }
+
+    img:hover {
+    transition: all 0.5s cubic-bezier(0.47, 0.05, 0.03, 0.98);
+    border-radius: 25px;
+    }
+    hr{
+    position: relative;
+    bottom: -30px;
+    }
+  </style>
 </head>
 <body>
-
-    <div>
-        <label for="searchInput">Enter a word:</label>
-        <input type="text" class="searchTerm" oninput="startSearchTimer()" />
+  <div class="wrap">
+    <div class="search">
+      <input type="text" class="searchTerm" placeholder="What are you looking for?" onkeyup="startSearchTimer()">
+      <button type="submit" class="searchButton" onclick="search()">
+        <i class="fa fa-search"></i>
+      </button>
     </div>
+  </div>
+  <hr>
+  <div class="container"></div>
 
-    <div class="container"></div>
+  <script>
+let searchTimer;
 
-    <script>
-        let searchTimer;
+function startSearchTimer() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(search, 500);
+}
 
-        function startSearchTimer() {
-            clearTimeout(searchTimer);
-            searchTimer = setTimeout(search, 500);
+function search() {
+  const searchTerm = document.querySelector('.searchTerm').value.toLowerCase();
+
+  fetch('./container.txt')
+    .then(response => response.text())
+    .then(htmlContent => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlContent, 'text/html');
+
+      const container = document.querySelector('.container');
+      container.innerHTML = '';
+
+      const divs = doc.querySelectorAll('div');
+      divs.forEach(div => {
+        const h2 = div.querySelector('h2');
+        if (h2 && h2.textContent.toLowerCase().includes(searchTerm)) {
+          container.innerHTML += `<div class="video" onclick="scrollToElement('${div.id}')">${div.innerHTML}</div>`;
         }
+      });
+    })
+    .catch(error => console.error('Error fetching container.txt:', error));
+}
 
-        function search() {
-            const searchTerm = document.querySelector('.searchTerm').value.toLowerCase();
+function scrollToElement(elementId) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+}
 
-            fetch('./container.txt')
-                .then(response => response.text())
-                .then(htmlContent => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(htmlContent, 'text/html');
+document.querySelector('.searchButton').addEventListener('click', search);
 
-                    const container = document.querySelector('.container');
-                    container.innerHTML = '';
 
-                    const divs = doc.querySelectorAll('div');
-                    divs.forEach(div => {
-                        const h2 = div.querySelector('h2');
-                        if (h2 && h2.textContent.toLowerCase().includes(searchTerm)) {
-                            container.innerHTML += `<div class="video" onclick="scrollToElement('${div.id}')">${div.innerHTML}</div>`;
-                        }
-                    });
-                })
-                .catch(error => console.error('Error fetching container.txt:', error));
-        }
 
-        function scrollToElement(elementId) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-    </script>
 
+
+  </script>
 </body>
 </html>
