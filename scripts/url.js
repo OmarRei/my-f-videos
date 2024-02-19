@@ -63,7 +63,7 @@ function openRandomLinks() {
 // Delay execution by 5 seconds
 setTimeout(function() {
     updateURL(); // Update URL after 5 seconds
-}, 5000);
+}, 2000);
 
 // Event listener for clicking randomHrefButton
 document.getElementById('randomHrefButton').addEventListener('click', openRandomLinks);
