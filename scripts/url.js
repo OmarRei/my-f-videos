@@ -9,18 +9,26 @@
             return query;
         }
 
-        // Function to generate a random path
-        function generateRandomPath() {
-            var path = 'main.html'; // Maintain the base path
-            return path;
+        // Function to modify the URL pathname
+        function modifyURL() {
+            // Get the current URL
+            var url = new URL(window.location.href);
+
+            // Get the pathname (part between the slashes)
+            var pathname = url.pathname;
+
+            // Modify the pathname as needed, in this case, just append "_modified"
+            var modifiedPathname = pathname.replace(/\(.+?\)/, '(modified)');
+
+            // Update the URL with the modified pathname
+            url.pathname = modifiedPathname;
+
+            // Update the URL with a random query parameter
+            url.searchParams.set('query', generateRandomQuery());
+
+            // Replace the current URL with the modified URL
+            window.history.replaceState({}, '', url.toString());
         }
 
-        // Generate a new random query parameter and path on each page load
-        var newQuery = generateRandomQuery();
-        var newPath = generateRandomPath();
-
-        // Update the URL with the new query parameter and path
-        var url = new URL(window.location.href);
-        url.searchParams.set('query', newQuery);
-        url.pathname = newPath;
-        window.history.replaceState({}, '', url.toString());
+        // Call the function to modify the URL
+        modifyURL();
