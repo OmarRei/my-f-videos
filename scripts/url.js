@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Update the URL with the new query parameter and path
         var url = new URL(window.location.href);
-        url.searchParams.set('query', newQuery);
+        url.searchParams.set('', newQuery);
         url.pathname = newPath;
         window.history.replaceState({}, '', url.toString());
     }, 5000); // 5000 milliseconds = 5 seconds
