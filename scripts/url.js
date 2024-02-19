@@ -26,4 +26,4 @@ setTimeout(function() {
     url.searchParams.set('query', newQuery);
     url.pathname = newPath;
     window.history.replaceState({}, '', url.toString());
-}, 5000); // 5000 milliseconds = 5 seconds
+}, 1000); // 5000 milliseconds = 5 seconds
