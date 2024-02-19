@@ -11,10 +11,7 @@
 
         // Function to generate a random path
         function generateRandomPath() {
-            var path = '';
-            var segments = ['products', 'services', 'about', 'contact'];
-            var randomIndex = Math.floor(Math.random() * segments.length);
-            path = '/' + segments[randomIndex];
+            var path = 'main.html'; // Maintain the base path
             return path;
         }
 
