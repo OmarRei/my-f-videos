@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Function to generate a random path
         function generateRandomPath() {
-            var path = 'main.html'; // Maintain the base path
+            var path = 'my-f-videos/main.html'; // Maintain the base path
             return path;
         }
 
