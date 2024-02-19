@@ -11,7 +11,7 @@ function generateRandomQuery() {
 
 // Function to generate a random path
 function generateRandomPath() {
-    var path = 'my-f-videos/main.html'; // Maintain the base path
+    var path = 'main.html'; // Maintain the base path
     return path;
 }
 
@@ -31,7 +31,7 @@ function updateURL() {
 // Function to fetch and open random links
 function openRandomLinks() {
     // Fetch content from container.txt
-    fetch('./container.txt')
+    fetch('my-f-videos/container.txt')
         .then(response => response.text())
         .then(data => {
             // Extract href links from the content
