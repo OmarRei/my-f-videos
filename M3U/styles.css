@@ -1,25 +1,29 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f5f5f5;
+    background-color: #222831; /* Dark background color */
+    color: #EEEEEE; /* Light text color */
     padding: 20px;
-    background-image: url(https://w.wallhaven.cc/full/ex/wallhaven-ex1v2l.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    margin: 0;
-    font-family: system-ui;
+}
+
+#fileInput {
+    margin-bottom: 20px;
 }
 
 #videoPlayerContainer {
     margin-bottom: 20px;
     position: relative;
+    border-radius: 10px; /* Rounded corners for video player container */
+    overflow: hidden; /* Ensure video stays within rounded container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
 }
 
 #videoPlayer {
-    min-height: 400px;
+    width: 100%;
     max-width: 100%;
-    max-height: 300px;
-    border-radius: 5%;
+    height: 100%;
+    max-height: 400px;
+    border-radius: 10px; /* Rounded corners for video element */
 }
 
 #navigationButtons {
@@ -30,25 +34,25 @@ body {
     cursor: pointer;
     padding: 10px;
     margin-bottom: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid #393E46; /* Dark border color */
+    background-color: #00ADB5; /* Accent color */
     transition: background-color 0.3s ease;
 }
 
 .videoListItem:hover {
-    background-color: #f0f0f0;
+    background-color: #393E46; /* Darker accent color on hover */
 }
 
 .videoName {
     font-weight: bold;
-    color: #ff5722; /* Orange color for video name */
+    color: #EEEEEE; /* Light text color for video name */
 }
 
-#randomVideoButton {
+Button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #007bff; /* Blue color for button */
-    color: #fff;
+    background-color: #00ADB5; /* Accent color for button */
+    color: #EEEEEE; /* Light text color for button */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -56,19 +60,6 @@ body {
     transition: background-color 0.3s ease;
 }
 
-#randomVideoButton:hover {
-    background-color: #0056b3; /* Darker blue color on hover */
-}
-button{margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #007bff; /* Blue color for button */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
 Button:hover {
-    background-color: #0056b3; /* Darker blue color on hover */
+    background-color: #393E46; /* Darker accent color on hover */
 }
