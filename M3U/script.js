@@ -1,6 +1,6 @@
 let videoUrls = [];
+let playlistItems = []; // Array to hold playlist items with name and URL
 let currentVideoIndex = 0;
-let playlistItems = []; // Store playlist items globally
 
 function loadPlaylist(event) {
     const file = event.target.files[0];
@@ -10,7 +10,6 @@ function loadPlaylist(event) {
     reader.onload = function(event) {
         const playlistContent = event.target.result;
         playlistItems = parsePlaylist(playlistContent);
-        videoUrls = playlistItems.map(item => item.url);
         renderVideoList(playlistItems);
         playVideo(currentVideoIndex);
     };
@@ -19,26 +18,26 @@ function loadPlaylist(event) {
 
 function parsePlaylist(playlistContent) {
     const lines = playlistContent.split('\n');
-    const playlistItems = [];
-    let currentUrl = '';
+    const items = [];
+    let currentName = '';
 
     for (const line of lines) {
         if (line.startsWith('#EXTINF:')) {
-            const name = line.substring(8).trim();
-            playlistItems.push({ name, url: currentUrl });
+            currentName = line.substring(8).trim();
         } else if (line.trim().startsWith('http')) {
-            currentUrl = line.trim();
+            const url = line.trim();
+            items.push({ name: currentName, url });
         }
     }
 
-    return playlistItems;
+    return items;
 }
 
-function renderVideoList(playlistItems) {
+function renderVideoList(items) {
     const videoListContainer = document.getElementById('videoList');
     videoListContainer.innerHTML = '';
 
-    playlistItems.forEach((item, index) => {
+    items.forEach((item, index) => {
         const listItem = document.createElement('div');
         listItem.classList.add('videoListItem');
 
@@ -53,39 +52,45 @@ function renderVideoList(playlistItems) {
 }
 
 function playVideo(index) {
+    if (index < 0 || index >= playlistItems.length) return;
+
     const videoPlayer = document.getElementById('videoPlayer');
     videoPlayer.innerHTML = '';
 
     const source = document.createElement('source');
-    source.src = videoUrls[index];
+    source.src = playlistItems[index].url;
     videoPlayer.appendChild(source);
 
     videoPlayer.load();
     videoPlayer.play();
     currentVideoIndex = index;
 
-    // Update video title
+    // Update video title (id="videoTitle") with the name of the current video
     const videoTitleContainer = document.getElementById('videoTitle');
-    videoTitleContainer.textContent = playlistItems[index].name;
+    videoTitleContainer.textContent = `Video ${index + 1} is playing: ${playlistItems[index].name}`;
+    
+    // Update video name elements (class="videoName") with appropriate highlighting
+    const videoNameElements = document.querySelectorAll('.videoName');
+    videoNameElements.forEach((element, idx) => {
+        if (idx === index) {
+            element.classList.add('active'); // Apply active class to current video name
+        } else {
+            element.classList.remove('active'); // Remove active class from other video names
+        }
+    });
 }
 
 function playPreviousVideo() {
-    if (currentVideoIndex > 0) {
-        playVideo(currentVideoIndex - 1);
-    } else {
-        playVideo(videoUrls.length - 1);
-    }
+    const newIndex = (currentVideoIndex - 1 + playlistItems.length) % playlistItems.length;
+    playVideo(newIndex);
 }
 
 function playNextVideo() {
-    if (currentVideoIndex < videoUrls.length - 1) {
-        playVideo(currentVideoIndex + 1);
-    } else {
-        playVideo(0);
-    }
+    const newIndex = (currentVideoIndex + 1) % playlistItems.length;
+    playVideo(newIndex);
 }
 
 function playRandomVideo() {
-    const randomIndex = Math.floor(Math.random() * videoUrls.length);
+    const randomIndex = Math.floor(Math.random() * playlistItems.length);
     playVideo(randomIndex);
 }
