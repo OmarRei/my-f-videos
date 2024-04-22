@@ -1,5 +1,6 @@
 let videoUrls = [];
 let currentVideoIndex = 0;
+let playlistItems = []; // Store playlist items globally
 
 function loadPlaylist(event) {
     const file = event.target.files[0];
@@ -8,7 +9,7 @@ function loadPlaylist(event) {
     const reader = new FileReader();
     reader.onload = function(event) {
         const playlistContent = event.target.result;
-        const playlistItems = parsePlaylist(playlistContent);
+        playlistItems = parsePlaylist(playlistContent);
         videoUrls = playlistItems.map(item => item.url);
         renderVideoList(playlistItems);
         playVideo(currentVideoIndex);
@@ -20,14 +21,13 @@ function parsePlaylist(playlistContent) {
     const lines = playlistContent.split('\n');
     const playlistItems = [];
     let currentUrl = '';
-    let currentName = '';
 
     for (const line of lines) {
         if (line.startsWith('#EXTINF:')) {
-            currentName = line.substring(8).trim();
+            const name = line.substring(8).trim();
+            playlistItems.push({ name, url: currentUrl });
         } else if (line.trim().startsWith('http')) {
             currentUrl = line.trim();
-            playlistItems.push({ name: currentName, url: currentUrl });
         }
     }
 
@@ -63,6 +63,10 @@ function playVideo(index) {
     videoPlayer.load();
     videoPlayer.play();
     currentVideoIndex = index;
+
+    // Update video title
+    const videoTitleContainer = document.getElementById('videoTitle');
+    videoTitleContainer.textContent = playlistItems[index].name;
 }
 
 function playPreviousVideo() {

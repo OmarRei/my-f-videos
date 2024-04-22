@@ -36,11 +36,13 @@ body {
     margin-bottom: 5px;
     border: 1px solid #393E46; /* Dark border color */
     background-color: #00ADB5; /* Accent color */
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .videoListItem:hover {
     background-color: #393E46; /* Darker accent color on hover */
+    border-radius: 10px;
 }
 
 .videoName {
