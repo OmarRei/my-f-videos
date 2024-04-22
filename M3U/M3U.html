@@ -71,68 +71,43 @@ http://example.com/music/song.mp4
 </div>
 
 <script>
-  document.getElementById('fileInput').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    var reader = new FileReader();
+  function addSong() {
+      var title = prompt("Enter video title:");
+      var url = prompt("Enter video URL:");
 
-    reader.onload = function(event) {
-      var playlistContent = event.target.result;
-      document.getElementById('playlist').value = playlistContent;
-      updateVideoPlayer();
-    };
+      var playlist = document.getElementById("playlist");
+      playlist.value += "\n#EXTINF:" + title + "\n" + url;
+  }
 
-    reader.readAsText(file);
-  });
+  function confirmClear() {
+      var confirmClear = confirm("Are you sure you want to clear the playlist?");
+      if (confirmClear) {
+          clearPlaylist();
+      }
+  }
 
   function clearPlaylist() {
-    var confirmation = confirm("Are you sure you want to clear the playlist?");
-    if (confirmation) {
-      document.getElementById('playlist').value = "#EXTM3U";
-      updateVideoPlayer();
-    }
+      document.getElementById("playlist").value = "#EXTM3U";
   }
 
   function savePlaylist() {
-    var playlistContent = document.getElementById("playlist").value;
-    var filename = prompt("Enter the file name to save as:");
+      var playlistContent = document.getElementById("playlist").value;
+      var filename = prompt("Enter the file name to save as:");
 
-    if (filename) {
-      var blob = new Blob([playlistContent], {type: "text/plain"});
-      var url = window.URL.createObjectURL(blob);
+      if (filename) {
+          var blob = new Blob([playlistContent], {type: "text/plain"});
+          var url = window.URL.createObjectURL(blob);
 
-      var a = document.createElement("a");
-      a.href = url;
-      a.download = filename + ".m3u";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } else {
-      alert("Please enter a valid file name.");
-    }
-  }
-
-  function updateVideoPlayer() {
-    var playlistContent = document.getElementById('playlist').value;
-    var lines = playlistContent.split('\n');
-    var videoUrl = '';
-
-    lines.forEach(function(line) {
-      if (line.trim().startsWith('http')) {
-        videoUrl = line.trim();
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = filename + ".m3u";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+      } else {
+          alert("Please enter a valid file name.");
       }
-    });
-
-    var videoPlayer = document.getElementById('videoPlayer');
-    if (videoUrl) {
-      videoPlayer.src = videoUrl;
-    } else {
-      videoPlayer.src = '';
-    }
   }
-
-  document.getElementById('playlist').addEventListener('input', function(event) {
-    updateVideoPlayer();
-  });
 </script>
 
 </body>
