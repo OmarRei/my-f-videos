@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3U Playlist Editor</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+
+  #container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+  <h1>M3U Playlist Editor</h1>
+
+  <textarea id="playlist" rows="10" cols="50">
+#EXTM3U
+#EXTINF:123,Artist - Song Title
+http://example.com/music/song.mp4
+  </textarea><br>
+
+  <button onclick="addSong()">Add Video</button>
+  <button onclick="clearPlaylist()">Clear Playlist</button>
+  <button onclick="savePlaylist()">Save Playlist</button>
+  <a href="play.html">
+    <button>Play</button>
+  </a>
+</div>
+
+<script>
+  document.getElementById('fileInput').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(event) {
+      var playlistContent = event.target.result;
+      document.getElementById('playlist').value = playlistContent;
+      updateVideoPlayer();
+    };
+
+    reader.readAsText(file);
+  });
+
+  function clearPlaylist() {
+    var confirmation = confirm("Are you sure you want to clear the playlist?");
+    if (confirmation) {
+      document.getElementById('playlist').value = "#EXTM3U";
+      updateVideoPlayer();
+    }
+  }
+
+  function savePlaylist() {
+    var playlistContent = document.getElementById("playlist").value;
+    var filename = prompt("Enter the file name to save as:");
+
+    if (filename) {
+      var blob = new Blob([playlistContent], {type: "text/plain"});
+      var url = window.URL.createObjectURL(blob);
+
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = filename + ".m3u";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      alert("Please enter a valid file name.");
+    }
+  }
+
+  function updateVideoPlayer() {
+    var playlistContent = document.getElementById('playlist').value;
+    var lines = playlistContent.split('\n');
+    var videoUrl = '';
+
+    lines.forEach(function(line) {
+      if (line.trim().startsWith('http')) {
+        videoUrl = line.trim();
+      }
+    });
+
+    var videoPlayer = document.getElementById('videoPlayer');
+    if (videoUrl) {
+      videoPlayer.src = videoUrl;
+    } else {
+      videoPlayer.src = '';
+    }
+  }
+
+  document.getElementById('playlist').addEventListener('input', function(event) {
+    updateVideoPlayer();
+  });
+</script>
+
+</body>
+</html>

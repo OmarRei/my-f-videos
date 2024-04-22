@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U Video Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <input type="file" id="fileInput" accept=".m3u" onchange="loadPlaylist(event)">
+    <div id="videoPlayerContainer">
+        <video id="videoPlayer" controls></video>
+        <div id="navigationButtons">
+            <button onclick="playPreviousVideo()">Previous</button>
+            <button onclick="playNextVideo()">Next</button>
+        </div>
+    </div>
+      <button id="randomVideoButton" onclick="playRandomVideo()">Random Video</button>
+    <div id="videoList"></div>
+ 
+    <script src="script.js"></script>
+</body>
+</html>
