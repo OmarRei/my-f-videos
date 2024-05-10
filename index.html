@@ -3,107 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <title>Password Page</title>
+    <title>Password Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <style>
-#passwordInput {
-  width: 200px; /* Set the width of the input field */
-  height: 30px; /* Set the height of the input field */
-  padding: 5px; /* Add some padding inside the input field */
-  border: 1px solid #ccc; /* Add a border around the input field */
-  border-radius: 5px; /* Add rounded corners to the input field */
-  font-size: 16px; /* Set the font size of the text inside the input field */
-  outline: none; /* Remove the default outline */
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222831;
+        }
 
-#passwordInput:focus {
-  border-color: #007bff; /* Change the border color when the input field is focused */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow when the input field is focused */
-}
+        .container {
+            background-color: #393e46;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
 
-#passwordForm {
-  position: fixed; /* Position the element relative to the viewport */
-  top: 50%; /* Move the element down by 50% of the viewport height */
-  left: 50%; /* Move the element right by 50% of the viewport width */
-  transform: translate(-50%, -50%); /* Adjust position to center based on element's dimensions */
-  /* Additional styling for password form as needed */
-}
+        .login-form {
+            max-width: 300px;
+            margin: auto;
+        }
 
-.button-6 {
-  align-items: center;
-  background-color: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: .25rem;
-  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
-  box-sizing: border-box;
-  color: rgba(0, 0, 0, 0.85);
-  cursor: pointer;
-  display: inline-flex;
-  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  justify-content: center;
-  line-height: 1.25;
-  margin: 0;
-  min-height: 3rem;
-  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
-  position: relative;
-  text-decoration: none;
-  transition: all 250ms;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: baseline;
-  width: auto;
-}
+        h2 {
+            color: #adb5bd;
+            text-align: center;
+        }
 
-.button-6:hover,
-.button-6:focus {
-  border-color: rgba(0, 0, 0, 0.15);
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-  color: rgba(0, 0, 0, 0.65);
-}
+        .input-group {
+            margin-bottom: 20px;
+        }
 
-.button-6:hover {
-  transform: translateY(-1px);
-}
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #adb5bd;
+        }
 
-.button-6:active {
-  background-color: #F0F0F1;
-  border-color: rgba(0, 0, 0, 0.15);
-  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
-  color: rgba(0, 0, 0, 0.65);
-  transform: translateY(0);
-}
-#tools{
-    position: fixed;
-    right: 50%;
-    top: 60%;
-}
-.tools{
-    width: 40px;
-    height: 40px;
-    background-color: #00adb5;
-    color: #eeeeee;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    align-items: center;
-}
+        input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #eeeeee;
+        }
+
+        .button-6 {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00adb5;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-6:hover {
+            background-color: #00838f;
+        }
+        #tools{
+            margin-top: 10px;
+
+        }
+        #tools button {
+            display: block;
+            width: 40px;
+            height: 40px;
+            margin-top: 10px;
+            background-color: #00adb5;
+            color: #eeeeee;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        #tools button:hover {
+            transition: all 0.5s ease-in-out;
+            background-color: #006469;
+        }
     </style>
-
 </head>
 <body>
-    <form id="passwordForm">
-        <input type="password" id="passwordInput" placeholder="Enter password" required>
-        <button type="submit" class="button-6">Submit</button>
-    </form>
-    <div id="tools">
-        <a href="M3U/M3U.html" target="_blank">
-            <button class="tools">m3u</button>
-        </a>
+    <div class="container">
+        <form class="login-form" id="passwordForm">
+            <h2>Password Login</h2>
+            <div class="input-group">
+                <label for="passwordInput">Password</label>
+                <input type="password" id="passwordInput" name="password" required>
+            </div>
+            <button type="submit" class="button-6">Login</button>
+        </form>
+        <div id="tools">
+            <a href="M3U/M3U.html" target="_blank">
+                <button class="tools">m3u</button>
+            </a>
+        </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
     <script>
         document.getElementById('passwordForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -124,7 +124,7 @@
                                 const expiration = new Date(expirationDate);
                                 if (expiration > today) {
                                     passwordFound = true;
-                                    window.location.href = '/my-f-videos/main.html'; // Redirect to success PHP page
+                                    window.location.href = 'main.html'; // Redirect to success PHP page
                                 } else {
                                     alert('Password expired.');
                                 }
@@ -143,5 +143,4 @@
         });
     </script>
 </body>
-<script src="scripts/ip.js"></script>
 </html>
