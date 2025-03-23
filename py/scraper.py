@@ -5,6 +5,7 @@ import random
 import logging
 import requests
 import validators
+import signal
 from typing import List, Dict, Optional
 from urllib.parse import urlparse, urljoin
 from bs4 import BeautifulSoup
@@ -18,7 +19,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import webbrowser
-import keyboard
 import sys
 from threading import Event, Lock
 
@@ -43,9 +43,14 @@ class WebScraper:
         self.selenium_driver = None
         self.selenium_initialized = False
         self.stop_event = Event()
-        self.keyboard_lock = Lock()
         self.results = []
         self.input_file = None  # Add this line to track input file name
+        signal.signal(signal.SIGINT, self._signal_handler)
+
+    def _signal_handler(self, signum, frame):
+        """Handle Ctrl+C"""
+        print("\nStopping and saving progress...")
+        self.stop_event.set()
 
     def _init_selenium(self):
         """Initialize headless Chrome browser"""
@@ -216,31 +221,17 @@ class WebScraper:
 
         return largest_image
 
-    def _setup_keyboard_handler(self):
-        """Setup keyboard event handler"""
-        def on_press(event):
-            if event.name == 'q':
-                with self.keyboard_lock:
-                    if not self.stop_event.is_set():
-                        print("\nStopping and saving progress...")
-                        self.stop_event.set()
-
-        keyboard.on_press(on_press)
-
     def _show_progress(self, current: int, total: int, url: str):
         """Show progress bar"""
         width = 50
         progress = int(width * current / total)
-        sys.stdout.write('\r')
-        sys.stdout.write(f"[{'=' * progress}{' ' * (width - progress)}] {current}/{total} - {url[:50]}")
-        sys.stdout.flush()
+        print(f"\r[{'=' * progress}{' ' * (width - progress)}] {current}/{total} - {url[:50]}", end='', flush=True)
 
     def scrape_urls(self, urls: List[str]) -> List[Dict]:
         self.results = []  # Reset results
         total = len(urls)
         
-        print("\nPress 'Q' at any time to stop and save progress\n")
-        self._setup_keyboard_handler()
+        print("\nPress Ctrl+C at any time to stop and save progress\n")
         
         try:
             for idx, url in enumerate(urls, 1):
@@ -258,14 +249,11 @@ class WebScraper:
         except Exception as e:
             logging.error(f"Error during scraping: {e}")
         finally:
-            keyboard.unhook_all()  # Clean up keyboard hooks
-            if self.results:
-                if self.stop_event.is_set():
-                    # Save progress if stopped early
-                    temp_file = "temp_scrape_results.html"
-                    self.generate_html(self.results, temp_file)
-                    print(f"\nPartial results saved to {temp_file}")
-                    webbrowser.open(f'file://{os.path.abspath(temp_file)}')
+            if self.results and self.stop_event.is_set():
+                temp_file = "temp_scrape_results.html"
+                self.generate_html(self.results, temp_file)
+                print(f"\nPartial results saved to {temp_file}")
+                webbrowser.open(f'file://{os.path.abspath(temp_file)}')
             return self.results
 
     def generate_html(self, data: List[Dict], filename: str = 'output.html') -> str:
@@ -370,7 +358,6 @@ class WebScraper:
         return 'output.html'
 
     def __del__(self):
-        keyboard.unhook_all()  # Ensure keyboard hooks are cleaned up
         if self.selenium_driver:
             self.selenium_driver.quit()
 
@@ -393,8 +380,6 @@ def main():
             webbrowser.open(f'file://{os.path.abspath(saved_file)}')
     except KeyboardInterrupt:
         print("\nExiting...")
-    finally:
-        keyboard.unhook_all()
 
 if __name__ == "__main__":
     main()

@@ -258,3 +258,16 @@ img:hover{
   position: sticky;
   transform: translate(-50%, -50%);
 }
+.keywords {
+  padding: 0 15px 15px;
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+.keyword {
+  display: inline-block;
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin: 2px;
+}
