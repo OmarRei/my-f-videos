@@ -22,12 +22,13 @@ import webbrowser
 import sys
 from threading import Event, Lock
 
-# Configure logging
+# Configure logging with path relative to script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('scraper.log'),
+        logging.FileHandler(os.path.join(script_dir, 'scraper.log')),
         logging.StreamHandler()
     ]
 )

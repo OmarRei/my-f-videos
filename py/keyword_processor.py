@@ -12,11 +12,13 @@ from typing import List
 import requests
 
 # Configure logging like scraper.py
+script_dir = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler('keyword_processor.log'),
+        logging.FileHandler(os.path.join(script_dir, 'logkeyword_processor.log')),
         logging.StreamHandler()
     ]
 )
