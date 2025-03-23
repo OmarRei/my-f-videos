@@ -1,0 +1,9 @@
+requests
+beautifulsoup4
+validators
+fake-useragent
+selenium
+webdriver-manager
+keyboard
+flask
+flask-socketio
