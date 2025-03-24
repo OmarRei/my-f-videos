@@ -4,44 +4,30 @@ document.addEventListener('DOMContentLoaded', function () {
   const reverseOrderButton = document.getElementById('reverseOrder');
   let currentPage = 1;
   const itemsPerPage = 32;
-  let videoElements = []; // Store video elements from container.txt
+  let videoElements = [];
 
   function fetchContent() {
     fetch('container.txt')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.text();
-      })
+      .then(response => response.text())
       .then(data => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data, 'text/html');
-
-        videoElements = Array.from(doc.querySelectorAll('.video'));
+        container.innerHTML = data;
+        videoElements = Array.from(container.querySelectorAll('.video'));
         renderContent();
       })
-      .catch(error => {
-        console.error('Error fetching content:', error);
-      });
+      .catch(error => console.error('Error fetching content:', error));
   }
 
   function renderContent() {
     const startIndex = 0;
     const endIndex = currentPage * itemsPerPage;
-    const currentElements = videoElements.slice(startIndex, endIndex);
+    
+    // Hide all videos first
+    videoElements.forEach(el => el.style.display = 'none');
+    
+    // Show only the current page of videos
+    videoElements.slice(startIndex, endIndex).forEach(el => el.style.display = '');
 
-    container.innerHTML = ''; // Clear container
-
-    currentElements.forEach(element => {
-      container.appendChild(element.cloneNode(true));
-    });
-
-    if (endIndex < videoElements.length) {
-      loadMoreButton.style.display = 'block';
-    } else {
-      loadMoreButton.style.display = 'none';
-    }
+    loadMoreButton.style.display = endIndex < videoElements.length ? 'block' : 'none';
   }
 
   function loadMore() {
